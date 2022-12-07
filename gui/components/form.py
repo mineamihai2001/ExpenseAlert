@@ -32,7 +32,10 @@ class Form(Component):
         for input in inputs:
             entry = customtkinter.CTkEntry(
                 master=self.form, placeholder_text=input["name"], **input["args"])
-            entry.pack(pady=12, padx=10)
+            if "grid" in input:
+                entry.grid(**input["grid"])
+            else:
+                entry.pack(pady=12, padx=10)
             self.inputs.append({
                 "name": input["name"],
                 "entry": entry
@@ -41,6 +44,9 @@ class Form(Component):
     def build_buttons(self, buttons: list):
         for button in buttons:
             btn = customtkinter.CTkButton(
-                master=self.form, text=button["name"], command=lambda button = button: button["action"](self.inputs), **button["args"])
-            btn.pack(pady=12, padx=10)
+                master=self.form, text=button["name"], command=lambda button=button: button["action"](self.inputs), **button["args"])
+            if "grid" in button:
+                btn.grid(**button["grid"])
+            else:
+                btn.pack(pady=12, padx=10)
             # self.buttons.append(btn)

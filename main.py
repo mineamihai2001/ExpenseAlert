@@ -13,7 +13,7 @@ routes = {
     "register": {
         "frame": register.Register
     },
-    "main": {
+    "home": {
         "frame": home.Home
     }
 }

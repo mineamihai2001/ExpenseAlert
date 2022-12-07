@@ -9,6 +9,7 @@ class Login(Frame):
 
     def action_login(self, inputs: list):
         print("action called", [(i["name"], i["entry"].get()) for i in inputs])
+        self.router.redirect("login", "home")
 
     def register(self, inputs):
         print("register redirect")

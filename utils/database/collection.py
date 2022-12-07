@@ -9,5 +9,9 @@ class Collection:
         cursor = self.collection.find(data)
         return [doc for doc in cursor]
 
+    def put(self, data):
+        self.collection.insert_one(data)
+
+    
 
     

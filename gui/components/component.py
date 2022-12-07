@@ -5,3 +5,10 @@ class Component:
 
     def get(self):
         return self.component
+
+    def hide(self):
+        # print("called", self.component)
+        self.component.destroy()
+
+    def show(self):
+        self.copy.pack()
