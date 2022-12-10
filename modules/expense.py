@@ -1,7 +1,9 @@
 import time
 
 from bson import ObjectId
+from pprint import pprint
 from utils.database.collection import Collection
+from gui import modal
 
 
 class Expense:
@@ -34,10 +36,21 @@ class Expense:
         data["userId"] = self.user_id
         return self.expenses.put(data)
 
-    def insert_list(self, data: list):
+    def insert_list(self, data: list, onclick=False):
+        current_data = self.get_all()
+        new_data = list()
         for item in data:
-            item["userId"] = self.user_id
-        return self.expenses.put(data)
+            if not any(x["file_name"] == item["file_name"] for x in current_data):
+                item["userId"] = self.user_id
+                new_data.append(item)
+                print(f"[DEBUG] - inserting item {item['file_name']}")
+
+        if not len(new_data):
+            print("[INFO] - nothing new")
+            # if onclick:
+            #     return modal.show(message="[INFO] - nothing new")
+            return
+        return self.expenses.put(new_data)
 
 
 if __name__ == "__main__":
@@ -58,4 +71,3 @@ if __name__ == "__main__":
             "total": 800
         },
     ])
-    print(">>> ", res)

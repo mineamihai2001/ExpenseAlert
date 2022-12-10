@@ -3,7 +3,7 @@ from globals import session
 from ..components.form import Form
 from .frame import Frame
 from modules.auth import login
-
+from gui import modal
 
 class Login(Frame):
     def __init__(self, app, router) -> None:
@@ -15,6 +15,7 @@ class Login(Frame):
         
         user_id = login.action_login(**data)
         if user_id == None:
+            modal.show("[ERROR] - Invalid credentials")
             return
         session["user_id"] = user_id 
         self.router.redirect("login", "home")

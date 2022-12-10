@@ -4,6 +4,11 @@ from utils.database.collection import Collection
 
 
 users = Collection("users")
+register_data = {
+    "username": "",
+    "password": "",
+    "path": ""
+}
 
 
 def action_register(username: str, password: str):
@@ -13,10 +18,12 @@ def action_register(username: str, password: str):
         print("[ERROR] - username already exists")
         return None
     try:
-        res = users.put({"username": username, "password": hash})
+        register_data["username"] = username
+        register_data["password"] = hash
+        res = users.put({**register_data})
         return res
-    except:
-        print("[ERROR] - an error occurred when creating the user. Try again")
+    except Exception as e:
+        print("[ERROR] - an error occurred when creating the user. Try again", e)
         return None
 
 

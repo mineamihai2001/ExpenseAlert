@@ -4,6 +4,7 @@ from globals import session
 from .frame import Frame
 from ..components.side_panel import SidePanel
 from ..components.right_panel.dashboard import Dashboard
+from modules import manager
 
 
 class Home(Frame):
@@ -21,18 +22,16 @@ class Home(Frame):
                                                          width=180,
                                                          corner_radius=0)
         self.current.frame_left.grid(row=0, column=0, sticky="nswe")
-        self.side_panel = SidePanel(self.current.frame_left, self.get_options())
+        self.side_panel = SidePanel(
+            self.current.frame_left, self.get_options())
         self.side_panel.build()
-
 
         # RIGHT panel
         self.current.frame_right = customtkinter.CTkFrame(master=self.current)
         self.current.frame_right.grid(
             row=0, column=1, sticky="nswe", padx=20, pady=20)
         self.dashboard = Dashboard(self.current.frame_right)
-        self.side_panel.build()
-
-
+        # self.side_panel.build()
 
     def get_options(self):
         return {
@@ -64,3 +63,7 @@ class Home(Frame):
         print("go to dashboard")
         self.dashboard.show()
 
+    def show(self):  # overrides
+        self.current.pack(fill="both", expand=True)
+        manager.refresh()
+        self.dashboard.reload()

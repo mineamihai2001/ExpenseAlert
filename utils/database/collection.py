@@ -17,3 +17,6 @@ class Collection:
     def delete(self, data: dict | list):
         return self.collection.delete_one(data) if type(
             data) == dict else self.collection.delete_many(data)
+
+    def update(self, filter: dict, data: dict):
+        return self.collection.update_one(filter, data)

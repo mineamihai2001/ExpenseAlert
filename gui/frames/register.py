@@ -1,7 +1,6 @@
 from globals import session
 
 from bson import ObjectId
-
 from ..components.form import Form
 from .frame import Frame
 from modules.auth import register

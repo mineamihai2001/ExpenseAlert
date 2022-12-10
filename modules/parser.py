@@ -1,17 +1,18 @@
 import os
+import time
 
-from json import loads
 from datetime import datetime
+from json import loads
 from pprint import pprint
+from gui import modal
 
 
-source = "../docs"
 allowed = ".json"
 mandatory = ["items"]
 currency = "$"
 
 
-def get_data():
+def get_data(source):
     """ Load all the json files from the source directory """
     files = os.listdir(source)
     result = list()
@@ -19,10 +20,14 @@ def get_data():
         filename, extension = os.path.splitext(file)
         if extension == allowed:
             with open(os.path.join(source, file), "r+") as f:
-                formatted = {
-                    "file_name": file,
-                    "data": loads(f.read())
-                }
+                try:
+                    formatted = {
+                        "file_name": file,
+                        "data": loads(f.read())
+                    }
+                except Exception as e:
+                    modal.show(f"{file} doesn't contain a valid json")
+                    return None
             result.append(formatted)
     return result
 
@@ -40,15 +45,16 @@ def get_total(items: list, file_name):
     return total
 
 
-def parse():
+def parse(source):
     """ Returns the data loaded from the json files in a standard format """
-    file_data = get_data()
+    file_data = get_data(source)
 
     return [{
         "file_name": file["file_name"],
-        "date": (file["date"] if "date" in file else datetime.now().strftime("%d/%m/%Y")),
+        "date":(int(time.mktime(datetime.strptime(file["data"], "%d/%m/%Y").timetuple()))
+                if "date" in file else datetime.now().strftime("%d/%m/%Y")),
         "category": (file["data"]["category"] if "category" in file["data"] else "other"),
-        "total": {get_total(file['data']['items'], file['file_name'])}
+        "total": get_total(file['data']['items'], file['file_name'])
     } for file in file_data]
 
 
