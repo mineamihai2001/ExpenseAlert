@@ -1,5 +1,10 @@
+from globals import session
+
+from bson import ObjectId
+
 from ..components.form import Form
 from .frame import Frame
+from modules.auth import register
 
 
 class Register(Frame):
@@ -7,8 +12,21 @@ class Register(Frame):
         super().__init__(app, router)
         form = Form(self.current, self.get_options())
 
-    def action_register(self, inputs):
-        print("here123")
+    def action_register(self, inputs: list):
+        data = dict([(i["name"], i["entry"].get()) for i in inputs])
+
+        if data["password"] != data["confirm password"]:
+            print("[ERROR] - passwords don't match")
+            return
+
+        kwargs = dict((k, data[k]) for k in ("username", "password"))
+        user = register.action_register(**kwargs)
+
+        if user == None:
+            return
+
+        session["user_id"] = str(user.inserted_id)
+        self.router.redirect("register", "home")
 
     def login(self, inputs):
         print("login redirect")

@@ -1,5 +1,8 @@
+from globals import session
+
 from ..components.form import Form
 from .frame import Frame
+from modules.auth import login
 
 
 class Login(Frame):
@@ -8,7 +11,12 @@ class Login(Frame):
         form = Form(self.current, self.get_options())
 
     def action_login(self, inputs: list):
-        print("action called", [(i["name"], i["entry"].get()) for i in inputs])
+        data = dict([(i["name"], i["entry"].get()) for i in inputs])
+        
+        user_id = login.action_login(**data)
+        if user_id == None:
+            return
+        session["user_id"] = user_id 
         self.router.redirect("login", "home")
 
     def register(self, inputs):

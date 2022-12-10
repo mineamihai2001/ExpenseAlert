@@ -1,0 +1,2 @@
+global session
+session = {}

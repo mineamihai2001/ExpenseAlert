@@ -7,7 +7,7 @@ class Router:
         self.frames = {route: routes[route]["frame"](app, self) for route in routes}
 
     def start(self):
-        self.frames["home"].show()
+        self.frames["login"].show()
 
     def redirect(self, source, destination):
         self.frames[source].hide()

@@ -48,8 +48,9 @@ def parse():
         "file_name": file["file_name"],
         "date": (file["date"] if "date" in file else datetime.now().strftime("%d/%m/%Y")),
         "category": (file["data"]["category"] if "category" in file["data"] else "other"),
-        "total": f"{get_total(file['data']['items'], file['file_name'])}{currency}"
+        "total": {get_total(file['data']['items'], file['file_name'])}
     } for file in file_data]
+
 
 if __name__ == "__main__":
     parsed = parse()

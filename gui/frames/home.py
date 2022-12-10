@@ -1,4 +1,6 @@
 import customtkinter
+
+from globals import session
 from .frame import Frame
 from ..components.side_panel import SidePanel
 from ..components.right_panel.dashboard import Dashboard
