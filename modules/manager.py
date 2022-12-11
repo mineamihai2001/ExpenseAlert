@@ -31,7 +31,16 @@ def get_data():
 
     user = users.get({"_id": ObjectId(user_id)})[0]
     e = Expense(user_id)
-    return e.get_all()
+    data = e.get_all()
+
+    # formatted = dict()
+    # for expense in data:
+    #     if expense["category"] not in formatted:
+    #         formatted[expense["category"]] = [expense]
+    #     else:
+    #         formatted[expense["category"]].append(expense)
+    pprint(data)
+    return data
 
 
 def refresh(onclick=False):
@@ -45,7 +54,6 @@ def refresh(onclick=False):
 
     local_data = parser.parse(path)
     e.insert_list(local_data, onclick)
-    print("here123")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,14 @@
+{
+    "category": "food",
+    "items": [
+        {
+            "label": "bread",
+            "value": 7
+        },
+        {
+            "label": "water",
+            "value": 1,
+            "quantity": 12
+        }
+    ]
+}

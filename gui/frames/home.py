@@ -66,4 +66,4 @@ class Home(Frame):
     def show(self):  # overrides
         self.current.pack(fill="both", expand=True)
         manager.refresh()
-        self.dashboard.reload()
+        self.dashboard.reload()  # get the dashboard data only when this frame is shown

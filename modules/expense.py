@@ -47,8 +47,8 @@ class Expense:
 
         if not len(new_data):
             print("[INFO] - nothing new")
-            # if onclick:
-            #     return modal.show(message="[INFO] - nothing new")
+            if onclick:
+                return modal.show(message="[INFO] - nothing new")
             return
         return self.expenses.put(new_data)
 

@@ -1,0 +1,9 @@
+{
+    "category": "car",
+    "items": [
+        {
+            "label": "gas",
+            "value": 100
+        }
+    ]
+}

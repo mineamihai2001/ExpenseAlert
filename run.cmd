@@ -1,2 +1,2 @@
 clear
-python -m modules.auth.login
+python -m gui.test

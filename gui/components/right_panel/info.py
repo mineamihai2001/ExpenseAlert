@@ -1,17 +1,18 @@
 import customtkinter
 
+from tkinter import *
 from ..component import Component
 
-show = ["total", "date", "file_name"]
+show = ["total", "date", "file_name", "category"]
+
 
 class Info(Component):
     def __init__(self, parent, details: list) -> None:
         self.details = details
-        self.info = customtkinter.CTkFrame(master=parent)
+        self.parent = parent
 
         self.rows = list()
-        self.build()
-        super().__init__(parent, self.info)
+        super().__init__(parent, None)
 
     def set_details(self, details):
         self.details = details
@@ -24,24 +25,23 @@ class Info(Component):
 
     def add_data(self, details):
         self.details = details
-        for index, item in enumerate(self.details):
-            category = customtkinter.CTkLabel(
-                master=self.info, text=item["category"], text_font=("Roboto", 12))
-            category.grid(row=index, column=0)
 
+        sb = Scrollbar(self.parent)
+        sb.pack(side=RIGHT, fill=Y)
+
+        self.mylist = Listbox(self.parent, yscrollcommand=sb.set,
+                              width=400, height=600)
+
+        for index, item in enumerate(self.details):
             for key in list(item):
                 if key not in show:
                     item.pop(key)
+            self.mylist.insert(
+                END, f"{index + 1}. {item['category']} => {str(item)}")
 
-            data = customtkinter.CTkLabel(
-                master=self.info, text=str(item), text_font=("Roboto", 9))
-            data.grid(row=index, column=1)
-
-            self.rows.append((category, data))
+        self.mylist.pack(side=LEFT)
+        sb.config(command=self.mylist.yview)
 
     def refresh(self, details):
-        for row in self.rows:
-            for item in row:
-                item.destroy()
-
+        self.mylist.destroy()
         self.add_data(details)

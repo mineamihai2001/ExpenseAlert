@@ -7,7 +7,7 @@ class Form(Component):
         self.options = options
 
         self.form = customtkinter.CTkFrame(master=parent)
-        self.form.pack(pady=10, padx=10, fill="both", expand=True)
+        self.form.pack(pady=10, padx=10, fill="both")
 
         super().__init__(parent, self.form)
 
