@@ -1,0 +1,12 @@
+{
+    "alert": {
+        "food": 100,
+        "other": 500,
+        "car": 700
+    },
+    "warning": {
+        "food": 70,
+        "other": 350,
+        "car": 300
+    }
+}

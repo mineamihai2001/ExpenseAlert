@@ -18,6 +18,8 @@ def get_data(source):
     result = list()
     for file in files:
         filename, extension = os.path.splitext(file)
+        if filename == "setup":
+            continue
         if extension == allowed:
             with open(os.path.join(source, file), "r+") as f:
                 try:

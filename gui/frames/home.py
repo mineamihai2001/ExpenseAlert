@@ -1,6 +1,7 @@
 import customtkinter
 
 from globals import session
+from gui import modal
 from .frame import Frame
 from ..components.side_panel import SidePanel
 from ..components.right_panel.dashboard import Dashboard
@@ -65,5 +66,9 @@ class Home(Frame):
 
     def show(self):  # overrides
         self.current.pack(fill="both", expand=True)
-        manager.refresh()
+        status = manager.refresh()
+        # if not status:
+        #     modal.show("[WARNING] - The current path doesn't exist")
         self.dashboard.reload()  # get the dashboard data only when this frame is shown
+
+        self.dashboard.set_default()

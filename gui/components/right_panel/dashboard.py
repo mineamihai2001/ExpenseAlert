@@ -2,6 +2,8 @@ import customtkinter
 
 from globals import session
 from pprint import pprint
+
+from gui import modal
 from ..component import Component
 from ..form import Form
 from .info import Info
@@ -20,9 +22,22 @@ class Dashboard(Component):
 
         # Refresh button
         self.dashboard.refresh_btn = customtkinter.CTkButton(
-            master=parent, text="refresh", command=self.action_refresh)
+            master=parent, text="Refresh", command=self.action_refresh)
 
-        self.dashboard.refresh_btn.pack(pady=12, padx=10)
+
+        # Categories button
+        self.dashboard.categories = customtkinter.CTkButton(
+            master=parent, text="Show Categories", command=self.action_categories)
+        # All button
+        self.dashboard.all = customtkinter.CTkButton(
+            master=parent, text="Show All", command=self.action_all)
+
+        self.dashboard.refresh_btn.pack(pady=1, padx=10)
+        self.dashboard.categories.pack(pady=1, padx=10)
+        self.dashboard.all.pack(pady=1, padx=10)
+        # self.dashboard.all.grid(row=0, column=0, columnspan=1, padx=10, pady=10, sticky="we")
+        # self.dashboard.categories.grid(row=0, column=1, columnspan=1, padx=10, pady=10, sticky="we")
+
         super().__init__(parent, self.dashboard)
 
     def build(self):
@@ -65,8 +80,21 @@ class Dashboard(Component):
         }
 
     def action_refresh(self):
-        manager.refresh(True)
+        status = manager.refresh(True)
+        if status == False:
+            return modal.show("[ERROR] - The current path doesn't exist")
         self.dashboard.details.refresh(manager.get_data())
+    
+    def action_all(self):
+        """Refresh and change the details to ALL"""
+        status = manager.refresh()
+        self.dashboard.details.refresh(manager.get_data())
+
+    def action_categories(self):
+        """Refresh and change the details to CATEGORIES"""
+        status = manager.refresh()
+        setup = manager.get_setup()
+        self.dashboard.details.refresh(manager.get_data(), True, setup)
 
     def change_path(self, inputs):
         data = dict([(i["name"], i["entry"].get()) for i in inputs])
@@ -74,3 +102,11 @@ class Dashboard(Component):
 
     def reload(self):
         self.dashboard.details.add_data(manager.get_data())
+
+    def set_default(self):
+        current_path = manager.get_current().replace("\\", "/")
+
+        inputs = self.dashboard.path_form.inputs
+        entry = inputs[0]["entry"]
+
+        entry.insert(0, current_path)

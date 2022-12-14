@@ -38,6 +38,7 @@ class Form(Component):
                 entry.pack(pady=12, padx=10)
             self.inputs.append({
                 "name": input["name"],
+                "key": "value",
                 "entry": entry
             })
 
