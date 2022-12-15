@@ -1,5 +1,6 @@
 import os
 import time
+import yaml
 
 from datetime import datetime
 from json import loads
@@ -31,6 +32,17 @@ def get_data(source):
                     modal.show(f"{file} doesn't contain a valid json")
                     return None
             result.append(formatted)
+        elif extension == ".yaml":
+            with open(os.path.join(source, file), "r+") as f:
+                try:
+                    formatted = {
+                        "file_name": file,
+                        "data": yaml.safe_load(f)
+                    }
+                    pprint(formatted)
+                    result.append(formatted)
+                except Exception as e:
+                    print(">>> yaml error", e)
     return result
 
 
